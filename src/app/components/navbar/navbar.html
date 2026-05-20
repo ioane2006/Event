@@ -1,0 +1,25 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo" routerLink="/event-list">
+      <span class="logo-icon">⚡</span> Event<span class="logo-highlight">Hub</span>
+    </div>
+    
+    <button class="burger-menu" (click)="isMenuOpen = !isMenuOpen">
+      ☰
+    </button>
+    
+    <div class="menu" [class.active]="isMenuOpen">
+      <a *ngIf="hasToken() && isAdmin" routerLink="/admin-dashboard" routerLinkActive="active-link" class="nav-item">📊 სტატისტიკა</a>
+      <a routerLink="/event-list" routerLinkActive="active-link" class="nav-item">ღონისძიებები</a>
+      <a *ngIf="hasToken()" routerLink="/my-tickets" routerLinkActive="active-link" class="nav-item">ჩემი ბილეთები</a>
+      <a *ngIf="hasToken() && isAdmin" routerLink="/add-event" routerLinkActive="active-link" class="nav-item admin-link">➕ ახალი ღონისძიება</a>
+
+      <div class="auth-actions">
+        <button *ngIf="hasToken()" (click)="logout()" class="logout-btn">
+          <span>გამოსვლა</span> 🚪
+        </button>
+        <a *ngIf="!hasToken()" routerLink="/login" class="login-btn">შესვლა 👤</a>
+      </div>
+    </div>
+  </div>
+</nav>

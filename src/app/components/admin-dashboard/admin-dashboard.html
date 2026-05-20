@@ -1,0 +1,102 @@
+<div class="dashboard-wrapper">
+  <div class="dashboard-container">
+    
+    <div class="dashboard-header">
+      <h2>📊 ადმინისტრატორის პანელი — სტატისტიკა</h2>
+      <p>პლატფორმაზე არსებული ღონისძიებებისა და ბილეთების გაყიდვების რეპორტი</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card blue">
+        <div class="stat-icon">🎟️</div>
+        <div class="stat-info">
+          <h3>ჯამში გაყიდული</h3>
+          <p class="stat-number">{{ getTotalSoldTickets() }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card green">
+        <div class="stat-icon">💰</div>
+        <div class="stat-info">
+          <h3>საერთო შემოსავალი</h3>
+          <p class="stat-number">{{ getTotalRevenue() | number:'1.2-2' }} ₾</p>
+        </div>
+      </div>
+
+      <div class="stat-card purple">
+        <div class="stat-icon">📅</div>
+        <div class="stat-info">
+          <h3>აქტიური ივენთები</h3>
+          <p class="stat-number">{{ events.length }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="report-section">
+      <h3>📈 გაყიდვები ღონისძიებების მიხედვით</h3>
+      
+      <div class="table-container">
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>ღონისძიება</th>
+              <th>ლოკაცია</th>
+              <th>ბილეთის ფასი</th>
+              <th>გაყიდვები / ტევადობა</th>
+              <th>შევსება (%)</th>
+              <th>შემოსავალი</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ev of events">
+              <td class="event-title-cell">
+                <img [src]="'https://localhost:7252' + ev.imageUrl" alt="poster" class="table-thumb">
+                <strong>{{ ev.title }}</strong>
+              </td>
+              <td>📍 {{ ev.location }}</td>
+              <td>{{ ev.ticketTypes[0]?.price }} ₾</td>
+              <td>
+                <span class="sold-count">{{ ev.ticketTypes[0]?.soldCount || 0 }}</span> 
+                / {{ ev.maxCapacity }}
+              </td>
+              <td>
+                <div class="progress-container">
+                  <div class="progress-bar" [style.width.%]="getFillPercentage(ev)"></div>
+                  <span class="progress-text">{{ getFillPercentage(ev) }}%</span>
+                </div>
+              </td>
+              <td class="revenue-cell">{{ getEventRevenue(ev) | number:'1.2-2' }} ₾</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+
+
+
+    <div class="reviews-section" style="margin-top: 50px;">
+        <h3>მომხმარებელთა შეფასებები</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>მომხმარებელი</th>
+                <th>ღონისძიება</th>
+                <th>რეიტინგი</th>
+                <th>კომენტარი</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let r of reviews">
+                <td>{{r.user?.userName}}</td>
+                <td>{{r.event?.title}}</td>
+                <td>{{r.rating}} ★</td>
+                <td>{{r.comment}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+  </div>
+</div>

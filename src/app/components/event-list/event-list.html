@@ -1,0 +1,51 @@
+<div class="main-container">
+  
+  <div class="filter-panel">
+    <div class="filter-group search-box">
+      <span class="filter-icon">🔍</span>
+      <input type="text" [(ngModel)]="searchText" placeholder="ძებნა (სათაური, აღწერა)...">
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-icon">📍</span>
+      <select [(ngModel)]="selectedLocation">
+        <option value="">ყველა ლოკაცია</option>
+        <option *ngFor="let loc of locations" [value]="loc">{{ loc }}</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-icon">📅</span>
+      <input type="date" [(ngModel)]="selectedDate">
+    </div>
+
+    <button *ngIf="isAdmin" [routerLink]="['/add-event']" class="create-event-btn">
+      <span class="btn-icon">➕</span> შექმნა
+    </button>
+  </div>
+
+  <div class="events-grid" *ngIf="filteredEvents && filteredEvents.length > 0; else noEvents">
+    
+    <div class="event-card" *ngFor="let event of filteredEvents">
+      <img [src]="'https://localhost:7252' + event.imageUrl" alt="{{ event.title }}" class="event-img">
+      
+      <div class="event-details">
+        <h3>{{ event.title }}</h3>
+        <p><span class="icon">📅</span> {{ event.date | date:'dd/MM/yyyy, HH:mm' }}</p>
+        <p><span class="icon">📍</span> {{ event.location }}</p>
+        
+        <div class="card-actions">
+          <button [routerLink]="['/event-details', event.id]" class="view-btn">დეტალურად</button>
+          <button *ngIf="isAdmin" (click)="deleteEvent(event.id, event.title)" class="delete-btn" title="წაშლა">🗑️</button>
+        </div>
+      </div>
+
+    </div> </div>
+
+  <ng-template #noEvents>
+    <div class="no-results">
+      <p>მითითებული ფილტრებით ღონისძიებები ვერ მოიძებნა.</p>
+    </div>
+  </ng-template>
+
+</div>

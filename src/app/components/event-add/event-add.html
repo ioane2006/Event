@@ -1,0 +1,142 @@
+<div class="form-wrapper">
+  <div class="form-card">
+    <div class="form-header">
+      <h2>🆕 ახალი ღონისძიების დამატება</h2>
+      <p>შეავსეთ დეტალები ახალი ივენთის გამოსაქვეყნებლად</p>
+    </div>
+
+    <form #eventForm="ngForm" (ngSubmit)="onSubmit(eventForm)" class="event-form">
+      
+      <div class="form-group">
+        <label for="title">ღონისძიების სათაური</label>
+        <div class="input-wrapper">
+          <span class="input-icon">✏️</span>
+          <input 
+            type="text" 
+            id="title" 
+            name="title" 
+            [(ngModel)]="eventData.title" 
+            required 
+            #title="ngModel"
+            placeholder="მაგ: როკ კონცერტი თბილისში"
+          >
+        </div>
+        <div class="error-msg" *ngIf="title.touched && title.invalid">
+          სათაურის შეყვანა აუცილებელია
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="location">ლოკაცია</label>
+        <div class="input-wrapper">
+          <span class="input-icon">📍</span>
+          <input 
+            type="text" 
+            id="location" 
+            name="location" 
+            [(ngModel)]="eventData.location" 
+            required 
+            #location="ngModel"
+            placeholder="მაგ: თბილისი, რესპუბლიკის მოედანი"
+          >
+        </div>
+        <div class="error-msg" *ngIf="location.touched && location.invalid">
+          ლოკაციის მითითება აუცილებელია
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="date">თარიღი და დრო</label>
+        <div class="input-wrapper">
+          <span class="input-icon">📅</span>
+          <input 
+            type="datetime-local" 
+            id="date" 
+            name="date" 
+            [(ngModel)]="eventData.date" 
+            [min]="minDate"
+            required 
+            #date="ngModel"
+          >
+        </div>
+        <div class="error-msg" *ngIf="date.touched && date.invalid">
+          გთხოვთ მიუთითოთ ვალიდური თარიღი
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label for="price">ბილეთის ფასი (₾)</label>
+          <div class="input-wrapper">
+            <span class="input-icon">💰</span>
+            <input 
+              type="number" 
+              id="price" 
+              name="price" 
+              [(ngModel)]="eventData.price" 
+              min="0"
+              required
+              #price="ngModel"
+            >
+          </div>
+        </div>
+
+        <div class="form-group half-width">
+          <label for="maxCapacity">ადგილების რაოდენობა</label>
+          <div class="input-wrapper">
+            <span class="input-icon">👥</span>
+            <input 
+              type="number" 
+              id="maxCapacity" 
+              name="maxCapacity" 
+              [(ngModel)]="eventData.maxCapacity" 
+              min="1"
+              required
+              #capacity="ngModel"
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="file">ღონისძიების პოსტერი (სურათი)</label>
+        <div class="file-input-wrapper">
+          <input 
+            type="file" 
+            id="file" 
+            (change)="onFileSelected($event)" 
+            accept="image/*"
+            class="file-input"
+          >
+          <div class="file-custom-btn">
+            <span>📁 {{ selectedFile ? selectedFile.name : 'აირჩიეთ ფოტო ფაილი...' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">აღწერა</label>
+        <div class="textarea-wrapper">
+          <textarea 
+            id="description" 
+            name="description" 
+            [(ngModel)]="eventData.description" 
+            required 
+            rows="4"
+            #description="ngModel"
+            placeholder="დაწერეთ დეტალური ინფორმაცია ღონისძიების შესახებ..."
+          ></textarea>
+        </div>
+        <div class="error-msg" *ngIf="description.touched && description.invalid">
+          აღწერის შევსება აუცილებელია
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" routerLink="/event-list" class="cancel-btn">გაუქმება</button>
+        <button type="submit" [disabled]="eventForm.invalid" class="submit-btn">გამოქვეყნება 🚀</button>
+      </div>
+
+    </form>
+  </div>
+</div>

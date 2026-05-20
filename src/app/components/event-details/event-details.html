@@ -1,0 +1,90 @@
+<div class="details-container" *ngIf="event">
+  <button class="back-btn" (click)="goBack()">
+    <span class="arrow">←</span> უკან დაბრუნება
+  </button>
+
+  <div class="event-wrapper">
+    <div class="image-section">
+      <img [src]="'https://localhost:7252' + event.imageUrl" [alt]="event.title">
+    </div>
+
+    <div class="info-section">
+      <div class="badge">ღონისძიება</div>
+      <h1>{{ event.title }}</h1>
+      
+      <div class="meta-data">
+        <div class="meta-item">
+          <span class="icon">📍</span>
+          <div>
+            <p class="label">ლოკაცია</p>
+            <p class="value">{{ event.location }}</p>
+          </div>
+        </div>
+
+        <div class="meta-item">
+          <span class="icon">📅</span>
+          <div>
+            <p class="label">თარიღი და დრო</p>
+            <p class="value">{{ event.date | date: 'dd/MM/yyyy, HH:mm' }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="description-box">
+        <h3>აღწერა</h3>
+        <p>{{ event.description }}</p>
+      </div>
+
+      <div class="booking-card">
+        <div class="price-tag">
+          <p>ბილეთის ფასი</p>
+          <h2>{{ event.ticketTypes[0]?.price }} ₾</h2>
+        </div>
+        
+        <div class="status-info">
+          <p [class.no-seats]="event.ticketTypes[0]?.availableSeats <= 0">
+              {{ (event.ticketTypes[0]?.availableSeats > 0) 
+                  ? 'დარჩენილია ' + event.ticketTypes[0]?.availableSeats + ' ადგილი' 
+                  : 'ადგილები შევსებულია' }}
+          </p>
+        </div>
+
+        <button class="buy-now-btn" 
+                (click)="buyTicket()" 
+                [disabled]="event.ticketTypes[0]?.availableSeats <= 0">
+          {{ (event.ticketTypes[0]?.availableSeats > 0) ? 'ბილეთის შეძენა' : 'გაყიდულია' }}
+        </button>
+
+        
+
+
+      </div>
+      
+
+        <form [formGroup]="reviewForm" (ngSubmit)="submitReview()" class="mt-4 p-3 border">
+            <h4>დატოვეთ შეფასება</h4>
+            <div class="mb-2">
+                <label>რეიტინგი (1-5):</label>
+                <input type="number" formControlName="rating" class="form-control" min="1" max="5">
+            </div>
+            <div class="mb-2">
+                <label>კომენტარი:</label>
+                <textarea formControlName="comment" class="form-control"></textarea>
+            </div>
+            <button type="submit" [disabled]="reviewForm.invalid" class="btn btn-success">გაგზავნა</button>
+        </form>
+
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-overlay" *ngIf="showPaymentModal">
+    <div class="modal-content">
+        <h3>აირჩიეთ გადახდის მეთოდი</h3>
+        <button (click)="processPayment('card')">💳 ბარათით გადახდა</button>
+        <button (click)="processPayment('crypto')">₿ კრიპტოთი გადახდა</button>
+        <button (click)="showPaymentModal = false" class="close-btn">დახურვა</button>
+    </div>
+</div>

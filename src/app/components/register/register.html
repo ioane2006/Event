@@ -1,0 +1,56 @@
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2>რეგისტრაცია</h2>
+      <p>შექმენით ანგარიში პლატფორმაზე გამოსაყენებლად</p>
+    </div>
+
+    <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)" class="auth-form">
+      
+      <div class="form-group">
+        <label for="regEmail">ელ-ფოსტა</label>
+        <div class="input-wrapper">
+          <span class="input-icon">📧</span>
+          <input 
+            type="email" 
+            id="regEmail" 
+            name="email" ngModel 
+            required 
+            email #regMail="ngModel"
+            placeholder="შეიყვანეთ ელ-ფოსტა"
+          >
+        </div>
+        <div class="error-msg" *ngIf="regMail.touched && regMail.invalid">
+          გთხოვთ შეიყვანოთ სწორი ელ-ფოსტა
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="regPassword">პაროლი</label>
+        <div class="input-wrapper">
+          <span class="input-icon">🔒</span>
+          <input 
+            type="password" 
+            id="regPassword" 
+            name="password" 
+            ngModel 
+            required 
+            #regPass="ngModel"
+            placeholder="შექმენით ძლიერი პაროლი"
+          >
+        </div>
+        <div class="error-msg" *ngIf="regPass.touched && regPass.invalid">
+          პაროლის შეყვანა აუცილებელია
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="registerForm.invalid" class="auth-btn">
+        რეგისტრაცია
+      </button>
+
+      <div class="auth-footer">
+        უკვე გაქვთ ანგარიში? <a routerLink="/login">ავტორიზაცია</a>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="tickets-container" *ngIf="myTickets && myTickets.length > 0">
+  <h1>ჩემი ბილეთები</h1>
+  
+  <div class="ticket-card" *ngFor="let ticket of myTickets">
+    <div class="ticket-info">
+      <h3>{{ ticket.event?.title }}</h3>
+      <p><span class="icon">📅</span> {{ ticket.event?.date | date:'dd/MM/yyyy, HH:mm' }}</p>
+      <p><span class="icon">📍</span> {{ ticket.event?.location }}</p>
+      
+      <div class="ticket-meta">
+        <span class="ticket-type">{{ ticket.ticketType?.name }}</span>
+        <span class="ticket-price">{{ ticket.ticketType?.price }} ₾</span>
+        <button class="cancel-btn" (click)="cancelTicket(ticket.id)">ბილეთის დაბრუნება</button>
+      </div>
+    </div>
+
+    <div class="qr-section">
+      <img [src]="'https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=' + ticket.ticketCode" 
+        alt="QR Code" 
+        class="qr-code-img">
+      <p class="ticket-id">კოდი: {{ ticket.ticketCode }}</p>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="myTickets && myTickets.length === 0" class="no-tickets">
+  <p>თქვენ ჯერ არ გაქვთ ნაყიდი ბილეთები.</p>
+</div>

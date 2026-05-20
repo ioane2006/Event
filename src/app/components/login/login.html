@@ -1,0 +1,57 @@
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2>მოგესალმებით</h2>
+      <p>გაიარეთ ავტორიზაცია სისტემაში შესასვლელად</p>
+    </div>
+
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" class="auth-form">
+      
+      <div class="form-group">
+        <label for="email">ელ-ფოსტა</label>
+        <div class="input-wrapper">
+          <span class="input-icon">📧</span>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" ngModel 
+            required 
+            email
+            #emailInput="ngModel"
+            placeholder="შეიყვანეთ ელ-ფოსტა"
+          >
+        </div>
+        <div class="error-msg" *ngIf="emailInput.touched && emailInput.invalid">
+          გთხოვთ შეიყვანოთ სწორი ელ-ფოსტა
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">პაროლი</label>
+        <div class="input-wrapper">
+          <span class="input-icon">🔒</span>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            ngModel 
+            required 
+            #password="ngModel"
+            placeholder="შეიყვანეთ პაროლი"
+          >
+        </div>
+        <div class="error-msg" *ngIf="password.touched && password.invalid">
+          პაროლის შეყვანა აუცილებელია
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="loginForm.invalid" class="auth-btn">
+        სისტემაში შესვლა
+      </button>
+
+      <div class="auth-footer">
+        არ გაქვთ ანგარიში? <a routerLink="/register">დარეგისტრირდით</a>
+      </div>
+    </form>
+  </div>
+</div>
